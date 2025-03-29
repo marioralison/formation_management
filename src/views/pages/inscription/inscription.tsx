@@ -4,10 +4,7 @@ function Inscription() {
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pl-12 pr-12 pt-6 pb-6 bg-white rounded-2xl gap-4">
-      <div className="h-30 w-full flex justify-between items-center gap-4 row-span-2">
-        <button className='bg-slate-600 p-4 rounded-xl text-white font-medium cursor-pointer'>
-          Ajouter étudiant
-        </button>
+      <div className="h-30 w-full flex justify-end items-center gap-4 row-span-2">
         <div className='flex justify-center items-center gap-4'>
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
             <h1 className="text-white text-xl font-bold">5</h1>

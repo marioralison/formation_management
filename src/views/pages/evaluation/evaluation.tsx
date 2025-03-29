@@ -1,12 +1,19 @@
+import { useState } from 'react'
 import Remove from '../../../assets/Remove.png'
+import EvaluationForm from './evaluationForm'
 
 function Evaluation() {
+
+  const [isOpenForm, setIsOpenForm] = useState(false)
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pl-12 pr-12 pt-6 pb-6 bg-white rounded-2xl gap-4">
       <div className="h-30 w-full flex justify-between items-center gap-4 row-span-2">
-        <button className='bg-slate-600 p-4 rounded-xl text-white font-medium cursor-pointer'>
-          Ajouter étudiant
+        <button 
+          onClick={() => setIsOpenForm(true)}
+          className='bg-slate-600 p-4 rounded-xl text-white font-medium cursor-pointer'
+        >
+          Evaluer étudiant
         </button>
         <div className='flex justify-center items-center gap-4'>
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
@@ -41,6 +48,8 @@ function Evaluation() {
           </tbody>
         </table>
       </div>
+
+      {isOpenForm && <EvaluationForm onClose={() => setIsOpenForm(false)}/>}
     </div>
   )
 }

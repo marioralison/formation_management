@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import Remove from '../../../assets/Remove.png'
+import EtudiantForm from './etudiantForm';
 
 function Etudiant() {
+
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pl-12 pr-12 pt-6 pb-6 bg-white rounded-2xl gap-4">
       <div className="h-30 w-full flex justify-between items-center gap-4 row-span-2">
-        <button className='bg-slate-600 p-4 rounded-xl text-white font-medium cursor-pointer'>
+        <button 
+          className='bg-slate-600 p-4 rounded-xl text-white font-medium cursor-pointer'
+          onClick={() => setIsFormOpen(true)}
+        >
           Ajouter étudiant
         </button>
         <div className='flex justify-center items-center gap-4'>
@@ -41,7 +48,11 @@ function Etudiant() {
           </tbody>
         </table>
       </div>
+
+      {isFormOpen && <EtudiantForm onClose={() => setIsFormOpen(false)}/>}
+
     </div>
+
   )
 }
 
