@@ -1,6 +1,6 @@
 import Remove from '../../../assets/Remove.png'
 
-function Etudiant() {
+function Evaluation() {
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pl-12 pr-12 pt-6 pb-6 bg-white rounded-2xl gap-4">
@@ -12,28 +12,28 @@ function Etudiant() {
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
             <h1 className="text-white text-xl font-bold">5</h1>
           </div>
-          <h1 className="font-bold text-2xl">Etudiant</h1>
+          <h1 className="font-bold text-2xl">Evaluation</h1>
         </div>
       </div>
       <div className="w-full h-full overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
         <table className="w-full h-auto table-fixed border-collapse">
           <thead className="sticky top-0 bg-neutral-100">
             <tr className="h-14 text-center">
-              <th>Numéro</th>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Date naissance</th>
-              <th>Email</th>
+              <th>Numéro étudiant</th>
+              <th>Etudiant</th>
+              <th>Formation</th>
+              <th>Note</th>
+              <th>Remarque</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr className="h-18 text-center">
               <td>01</td>
-              <td>Ralison</td>
-              <td>Mario</td>
+              <td>Mathématique</td>
+              <td>5 heures</td>
               <td>15/12/2004</td>
-              <td className="text-blue-400">marioralison@gmail.com</td>
+              <td className="text-blue-400">Jean Fidèle</td>
               <td className='text-red-400 grid place-items-center pt-5'>
                 <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" />
               </td>
@@ -45,4 +45,4 @@ function Etudiant() {
   )
 }
 
-export default Etudiant;
+export default Evaluation;
