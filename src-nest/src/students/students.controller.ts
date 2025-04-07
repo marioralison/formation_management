@@ -9,27 +9,30 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post()
-  async create(@Body() createStudentDto: CreateStudentDto): Promise<IStudent> {
+  async addNew(@Body() createStudentDto: CreateStudentDto): Promise<IStudent | null> {
     return this.studentsService.create(createStudentDto);
   }
 
   @Get()
-  async findAll(): Promise<IStudent[]> {
+  async getAll(): Promise<IStudent[]> {
     return this.studentsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(+id);
+  @Get(':email')
+  async getOne(@Param('email') email: string): Promise<IStudent | null> {
+    return this.studentsService.findOne(email);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
+  @Patch(':email')
+  updateByEmail(@Param('email') email: string, @Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentsService.updateOne(email, updateStudentDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentsService.remove(+id);
+  @Delete(':email')
+  remove(@Param('email') email: string) {
+    return this.studentsService.remove(email);
   }
 }
+
+
+

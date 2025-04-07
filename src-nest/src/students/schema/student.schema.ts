@@ -1,25 +1,23 @@
 import { Schema } from "mongoose";
 
 export const StudentSchema = new Schema({
-    lastname: {
-        type: String,
-        require: true
-    },
+    lastname: String,
     firstname: {
         type: String,
-        require: true 
+        required: true 
     },
     date_of_birth: {
         type: Date,
-        require: true,
+        required: true,
     },
     email: {
         type: String,
-        require: true,
+        required: true,
+        unique: true
     },
     old: {
         type: Number,
-        require: true 
+        required: true 
     }
 }, {
     virtuals: {

@@ -1,0 +1,32 @@
+# update students  query
+db.students.updateOne(
+   { 
+      email: { $eq: "rakoto@gmail.com" }, 
+      old: { $gte: 34 } 
+   },
+   { 
+      $set: { lastname: "Rak", firstname: "Noro", date_of_birth: "2002-16-7", email: "ra@gmail.com" }
+   }
+)
+
+db.runCommand(
+   {
+      update: "students",
+      updates: [
+         {
+            q: {
+               email: { $eq: "rakoto@gmail.com" },
+               old: { $gte: 34 }
+            },
+            u: { 
+               $set: {
+                  lastname: "Rak", 
+                  firstname: "Noro", 
+                  date_of_birth: "2002-16-7", 
+                  email: "ra@gmail.com"
+               } 
+            }
+         }
+      ]
+   }
+)

@@ -21,15 +21,15 @@ export class StudentsService {
     return this.studentModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(email: string): Promise<IStudent | null> {
+    return this.studentModel.findOne({email: email}).exec();
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async updateOne(email: string, updateStudentDto: UpdateStudentDto) {
+    return this.studentModel.updateOne({email: {$eq: email }},{$set: updateStudentDto }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async remove(email: string) {
+    return this.studentModel.deleteOne({email: email}).exec();
   }
 }
