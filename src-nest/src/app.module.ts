@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { StudentsModule } from './students/students.module';
-import { FormationsModule } from './formations/formations.module';
-import { TrainersModule } from './trainers/trainers.module';
-import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import User from './users/entities/user.entity';
+import { PhotoModule } from './photo/photo.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), StudentsModule, FormationsModule, TrainersModule, DatabaseModule],
+  imports: [
+    PhotoModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
