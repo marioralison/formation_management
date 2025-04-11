@@ -10,7 +10,7 @@ export class Inscription {
     @PrimaryColumn({type: "varchar",length: 6})
     numero: string;
 
-    @Column({type: "date",default: new Date})
+    @Column({type: "date"})
     date: Date;
 
     @ManyToOne(() => Etudiants, (etudiant) => etudiant.inscriptions, {

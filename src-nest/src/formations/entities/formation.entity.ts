@@ -6,7 +6,7 @@ import { Inscription } from "src/inscriptions/entities/inscription.entity";
 
 @Entity()
 export class Formations {
-    @PrimaryColumn({type: "varchar",length: 6})
+    @PrimaryColumn({type: "char",length: 6})
     code: string;
 
     @Column({type: "varchar",length: 255 })
@@ -19,12 +19,10 @@ export class Formations {
     module: string;
 
     // La clé étrangère est toujours située du côté Many
-    @ManyToOne((type) => Formateur, (formateur) => formateur.formations,{
+    @ManyToOne(() => Formateur, (formateur) => formateur.formations,{
         cascade: ["update"],
         onDelete: "RESTRICT"
     })
-    // @JoinTable() // Erreur : @JoinTable n'est pas nécessaire ici, car c'est une relation ManyToOne
-    @JoinColumn({name: "id_formateur"})
     formateur: Formateur
 
     @OneToMany(() => Inscription, (inscription) => inscription.formation)
