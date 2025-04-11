@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route, Link, Navigate} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import routes from './routes/routes';
 import Layouts from './components/layouts/layouts';
 
