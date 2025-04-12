@@ -13,6 +13,8 @@ export class StudentsService {
   ){}
 
   create(createStudentDto: CreateStudentDto) {
+    console.log(createStudentDto);
+    
     return 'This action adds a new student';
   }
 
