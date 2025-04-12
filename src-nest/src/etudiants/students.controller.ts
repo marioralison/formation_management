@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, HttpStatus, Put } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Controller('students')
 export class StudentsController {
@@ -12,23 +11,25 @@ export class StudentsController {
     return this.studentsService.create(createStudentDto);
   }
 
+  @Put()
+  update(@Body() createStudentDto: CreateStudentDto) {
+    return this.studentsService.create(createStudentDto);
+  }
+
   @Get()
   findAll() {
     return this.studentsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(+id);
+  @Get(':numero')
+  findOne(@Param('numero',new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) numero: number) {
+    return this.studentsService.findOne(numero);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentsService.remove(+id);
+  @Delete(':numero')
+  async remove(@Param('numero',new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) numero: number) {
+    const etudiantToRemove = await this.studentsService.findOne(numero);
+    if (!etudiantToRemove) return;
+    return this.studentsService.remove(etudiantToRemove);
   }
 }

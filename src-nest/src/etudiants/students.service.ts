@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
 import { Repository } from 'typeorm';
 import { Etudiants } from './entities/student.entity';
 
@@ -12,25 +11,19 @@ export class StudentsService {
     private readonly etudientRepository: Repository<Etudiants>
   ){}
 
-  create(createStudentDto: CreateStudentDto) {
-    console.log(createStudentDto);
-    
-    return 'This action adds a new student';
+  create(createStudentDto: CreateStudentDto): Promise<Etudiants> {
+    return this.etudientRepository.save(createStudentDto);
   }
 
   findAll(): Promise<Etudiants[]> {
     return this.etudientRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  findOne(numero: number): Promise<Etudiants | null> {
+    return this.etudientRepository.findOneBy({ numero });
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  remove(etudiant: Etudiants): Promise<Etudiants> {
+    return this.etudientRepository.remove(etudiant);
   }
 }
