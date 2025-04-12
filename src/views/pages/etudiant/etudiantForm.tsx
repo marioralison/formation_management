@@ -41,14 +41,15 @@ function EtudiantForm({ onClose } : EtudiantFormProps) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log(response);
-            console.log(response.data);
-            
+            if (response.status){
+                // si ok
+                // close Formulaire
+            }
+            onClose()
         } catch (error) {
             console.log(error);
             return;
         }
-        // onClose()
     }
 
     return(
@@ -65,7 +66,7 @@ function EtudiantForm({ onClose } : EtudiantFormProps) {
                         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="w-full h-14 rounded-xl bg-gray-50 pl-4 pr-4 outline-hidden" required/>
                     </div>
                     <div className="w-full h-14 flex justify-center items-center gap-4">
-                        <button type="button" className="h-full w-full bg-gray-300 p-2 rounded-xl cursor-pointer text-white" >Annuler</button>
+                        <button type="button" className="h-full w-full bg-gray-300 p-2 rounded-xl cursor-pointer text-white" onClick={() => onClose()}>Annuler</button>
                         <button type="submit" className="h-full w-full bg-orange-300 p-2 rounded-xl cursor-pointer text-white" onClick={handleSubmit}>Ajouter</button>
                     </div>
                 </form>
