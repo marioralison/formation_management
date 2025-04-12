@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateFormationDto } from './dto/create-formation.dto';
 import { UpdateFormationDto } from './dto/update-formation.dto';
+import { Repository } from 'typeorm';
+import { Formations } from './entities/formation.entity';
 
 @Injectable()
 export class FormationsService {
+
+  constructor(
+    @Inject('FORMATION_REPOSITORY')
+    private formationRepository: Repository<Formations>
+  ) {}
+
   create(createFormationDto: CreateFormationDto) {
-    return 'This action adds a new formation';
+    return this.formationRepository.save(createFormationDto);
   }
 
-  findAll() {
-    return `This action returns all formations`;
+  findAll(): Promise<Formations[]> {
+    return this.formationRepository.find({
+      relations: {
+        formateur: true
+      }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} formation`;
+  findOne(code: string) {
+    return this.formationRepository.findOne({
+      where: { code },
+      relations: { formateur: true }
+    })
   }
 
-  update(id: number, updateFormationDto: UpdateFormationDto) {
-    return `This action updates a #${id} formation`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} formation`;
+  remove(formations: Formations) {
+    return this.formationRepository.remove(formations);
   }
 }

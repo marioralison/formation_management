@@ -4,7 +4,6 @@ import EtudiantForm from './etudiantForm';
 import axios from 'axios';
 
 interface Student {
-  id: number; // ou autre champ unique, selon ton backend
   numero: number;
   nom: string;
   prenom: string;
@@ -85,8 +84,6 @@ function Etudiant() {
                 </tr>
               )
             })}
-
-
           </tbody>
         </table>
       </div>
@@ -94,7 +91,6 @@ function Etudiant() {
       {isFormOpen && <EtudiantForm onClose={() => setIsFormOpen(false)}/>}
 
     </div>
-
   )
 }
 

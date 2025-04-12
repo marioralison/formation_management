@@ -6,7 +6,6 @@ interface EtudiantFormProps {
 }
 
 interface StudentFormData {
-    numero: number;
     nom: string;
     prenom: string;
     date_naissance: string; // Format YYYY-MM-DD
@@ -16,7 +15,6 @@ interface StudentFormData {
 function EtudiantForm({ onClose } : EtudiantFormProps) {
 
     const [formData, setFormData] = useState<StudentFormData>({
-        numero: 1,
         nom: '',
         prenom: '',
         date_naissance: '',

@@ -1,26 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateFormateurDto } from './dto/create-formateur.dto';
-import { UpdateFormateurDto } from './dto/update-formateur.dto';
+import { Repository } from 'typeorm';
+import { Formateur } from './entities/formateur.entity';
 
 @Injectable()
 export class FormateursService {
-  create(createFormateurDto: CreateFormateurDto) {
-    return 'This action adds a new formateur';
+
+  constructor(
+    @Inject('FORMATEUR_REPOSITORY')
+    private formateurRepository: Repository<Formateur>
+  ) {}
+
+  create(createFormateurDto: CreateFormateurDto): Promise<Formateur> {
+    return this.formateurRepository.save(createFormateurDto);
   }
 
-  findAll() {
-    return `This action returns all formateurs`;
+  findAll(): Promise<Formateur[]> {
+    return this.formateurRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} formateur`;
+  findOne(numero: number): Promise<Formateur | null> {
+    return this.formateurRepository.findOneBy({ numero });
   }
 
-  update(id: number, updateFormateurDto: UpdateFormateurDto) {
-    return `This action updates a #${id} formateur`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} formateur`;
+  remove(formateur: Formateur) {
+    return this.formateurRepository.remove(formateur);
   }
 }
