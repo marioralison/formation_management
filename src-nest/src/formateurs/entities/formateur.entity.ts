@@ -19,7 +19,7 @@ export class Formateur {
     @Column({type: "varchar",length: 255 })
     email: string
 
-    @Column({type: "text"})
+    @Column({type: "text",nullable: true})
     experience: string;
 
     @OneToMany(() => Formations,(formations) => formations.formateur)

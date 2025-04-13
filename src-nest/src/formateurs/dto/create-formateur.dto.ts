@@ -11,11 +11,11 @@ export class CreateFormateurDto {
     readonly prenom: string;
 
     @MaxLength(255,{message: 'specialite is too long. max lentgh is $constraint1 characters'})
-    readonly specialite?: string;
+    readonly specialite: string;
 
 
     @MaxLength(255,{message: 'experience is too long. max lentgh is $constraint1 characters'})
-    readonly experience: string;
+    readonly experience?: string;
 
     @IsEmail()
     readonly email: string;

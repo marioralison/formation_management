@@ -1,8 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Remove from '../../../assets/Remove.png'
 import EnseignantForm from './enseignantForm';
+import axios from 'axios';
+
+interface Enseignant {
+    numero: number;
+    nom: string;
+    prenom: string;
+    specialite: string;
+    experience?: string;
+    email: string;
+}
 
 function Enseignant() {
+
+    const [enseignant, setEnseignant] = useState<Enseignant[]>([]);
+
+    useEffect(() => {
+        fetchEnseignant();
+    }, []);
+
+    const fetchEnseignant = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/formateurs'); 
+        setEnseignant(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des étudiants:', error);
+      }
+    };
+
+    const handleRemove = async (numero: number) => {
+      try {
+        await axios.delete(`http://localhost:8080/formateurs/${numero}`);
+        setEnseignant(enseignant.filter(e => e.numero !== numero));
+      } catch (error) {
+        console.error('Erreur lors de la suppression formateurs:', error);
+      }
+    };
 
     const [isOpenForm, setIsOpenForm] = useState(false)
 
@@ -35,16 +69,20 @@ function Enseignant() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="h-18 text-center">
-                        <td>01</td>
-                        <td>Ralison</td>
-                        <td>Mario</td>
-                        <td>Mathématique, Physique</td>
-                        <td className="text-blue-400">marioralison@gmail.com</td>
-                        <td className='text-red-400 grid place-items-center pt-5'>
-                            <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" />
-                        </td>
-                        </tr>
+                        {enseignant.map((e) => {
+                            return(
+                                <tr key={e.numero} className="h-18 text-center">
+                                <td>{e.numero}</td>
+                                <td>{e.nom}</td>
+                                <td>{e.prenom}</td>
+                                <td>{e.specialite}</td>
+                                <td className="text-blue-400">{e.email}</td>
+                                <td className='text-red-400 grid place-items-center pt-5'>
+                                    <img className='w-8 h-8 cursor-pointer' onClick={() => handleRemove(e.numero)} src={Remove} alt="icon-remove" />
+                                </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>

@@ -1,8 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Remove from '../../../assets/Remove.png'
 import FormationForm from './formationForm';
+import axios from 'axios';
+
+interface Formation {
+  code: string;
+  intitule: string;
+  module: string;
+  date_debut: string;
+}
 
 function Formation() {
+
+  const [formation, setFormation] = useState<Formation[]>([]);
+
+  useEffect(() => {
+      fetchFormation();
+    }, []);
+
+  const fetchFormation = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/formations'); 
+      setFormation(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des formations:', error);
+    }
+  };
+
+  const handleRemove = async (code: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/formations/${code}`);
+      setFormation(formation.filter(f => f.code !== code));
+    } catch (error) {
+      console.error('Erreur lors de la suppression formation:', error);
+    }
+  };
 
   const [isOpenForm, setIsOpenForm] = useState(false)
 
@@ -35,16 +67,20 @@ function Formation() {
             </tr>
           </thead>
           <tbody>
-            <tr className="h-18 text-center">
-              <td>01</td>
-              <td>Mathématique</td>
-              <td>5 heures</td>
-              <td>15/12/2004</td>
-              <td className="text-blue-400">Jean Fidèle</td>
-              <td className='text-red-400 grid place-items-center pt-5'>
-                <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" />
-              </td>
-            </tr>
+            {formation.map((f) => {
+              return (
+                <tr key={f.code} className="h-18 text-center">
+                  <td>{f.code}</td>
+                  <td>{f.intitule}</td>
+                  <td>{f.module}</td>
+                  <td>{f.date_debut}</td>
+                  <td className="text-blue-400">Not implementhed</td>
+                  <td className='text-red-400 grid place-items-center pt-5'>
+                    <img className='w-8 h-8 cursor-pointer' onClick={() => handleRemove(f.code)} src={Remove} alt="icon-remove" />
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
