@@ -1,15 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { InscriptionsService } from './inscriptions.service';
 import { CreateInscriptionDto } from './dto/create-inscription.dto';
-import { UpdateInscriptionDto } from './dto/update-inscription.dto';
+import { StudentsService } from 'src/etudiants/students.service';
+import { FormationsService } from 'src/formations/formations.service';
+import { Etudiants } from 'src/etudiants/entities/student.entity';
+import { Formations } from 'src/formations/entities/formation.entity';
 
 @Controller('inscriptions')
 export class InscriptionsController {
-  constructor(private readonly inscriptionsService: InscriptionsService) {}
+  constructor(
+    private readonly inscriptionsService: InscriptionsService,
+    private readonly etudiantService: StudentsService,
+    private readonly formationService: FormationsService
+  ) {}
 
   @Post()
-  create(@Body() createInscriptionDto: CreateInscriptionDto) {
-    return this.inscriptionsService.create(createInscriptionDto);
+  async create(
+    @Query('numero_etudiant') numero_etudiant: number,
+    @Query('code_formation') code_formation: string,
+    @Body() createInscriptionDto: Pick<CreateInscriptionDto,"date">
+  ) {
+    const student: Etudiants | null = await this.etudiantService.findOne(numero_etudiant);
+    const formation: Formations | null = await this.formationService.findOne(code_formation);
+    if (!formation || !student) return;
+    return this.inscriptionsService.create({...createInscriptionDto,etudiant: student,formation});
   }
 
   @Get()
@@ -17,18 +31,15 @@ export class InscriptionsController {
     return this.inscriptionsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.inscriptionsService.findOne(+id);
+  @Get(':numero')
+  findOne(@Param('numero',new ParseIntPipe({errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE})) numero: number) {
+    return this.inscriptionsService.findOne(numero);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInscriptionDto: UpdateInscriptionDto) {
-    return this.inscriptionsService.update(+id, updateInscriptionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.inscriptionsService.remove(+id);
+  @Delete(':numero')
+  async remove(@Param('numero') numero: number) {
+    const insciptionToRemove = await this.inscriptionsService.findOne(numero);
+    if (!insciptionToRemove) return;
+    return this.inscriptionsService.remove(insciptionToRemove);
   }
 }

@@ -7,8 +7,8 @@ import { Formations } from "src/formations/entities/formation.entity";
 
 @Entity()
 export class Inscription {
-    @PrimaryColumn({type: "varchar",length: 6})
-    numero: string;
+    @PrimaryGeneratedColumn({type: "int"})
+    numero: number;
 
     @Column({type: "date"})
     date: Date;

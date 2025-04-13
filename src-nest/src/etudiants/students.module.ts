@@ -13,5 +13,6 @@ import { DatabaseModule } from 'src/database/database.module';
     ...etudiantsProviders,
     StudentsService
   ],
+  exports: [StudentsService,...etudiantsProviders]
 })
 export class StudentsModule {}

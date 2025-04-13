@@ -9,5 +9,6 @@ import { DatabaseModule } from 'src/database/database.module';
   imports: [FormateursModule,DatabaseModule],
   controllers: [FormationsController],
   providers: [FormationsService,...formationProviders],
+  exports: [FormationsService,...formationProviders]
 })
 export class FormationsModule {}

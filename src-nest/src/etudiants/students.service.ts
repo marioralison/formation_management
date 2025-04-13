@@ -20,7 +20,13 @@ export class StudentsService {
   }
 
   findOne(numero: number): Promise<Etudiants | null> {
-    return this.etudientRepository.findOneBy({ numero });
+    return this.etudientRepository.findOne({
+      where: { numero },
+      relations: {
+        evaluations: true,
+        inscriptions: true
+      }
+    });
   }
 
   remove(etudiant: Etudiants): Promise<Etudiants> {

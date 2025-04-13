@@ -24,7 +24,7 @@ export class FormationsService {
     });
   }
 
-  findOne(code: string) {
+  findOne(code: string): Promise<Formations | null> {
     return this.formationRepository.findOne({
       where: { code },
       relations: { formateur: true }
