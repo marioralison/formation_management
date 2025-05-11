@@ -1,6 +1,5 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, OneToMany, JoinTable  } from "typeorm";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Etudiants } from "src/etudiants/entities/student.entity";
-import { Note } from "src/notes/entities/note.entity";
 
 
 @Entity()
@@ -20,6 +19,6 @@ export class Evaluation {
     })
     etudiant: Etudiants;
 
-    @OneToMany(() => Note, (note) => note.evaluation)
-    notes: Note[]
+    @Column()
+    notes: string;
 }

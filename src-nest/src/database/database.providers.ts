@@ -5,8 +5,6 @@ import { Evaluation } from "src/evaluation/entities/evaluation.entity";
 import { Formateur } from "src/formateurs/entities/formateur.entity";
 import { Formations } from "src/formations/entities/formation.entity";
 import { Inscription } from "src/inscriptions/entities/inscription.entity";
-import { Note } from "src/notes/entities/note.entity";
-
 
 export const databaseProviders = [
     {
@@ -25,7 +23,6 @@ export const databaseProviders = [
                     Formateur,
                     Formations,
                     Inscription,
-                    Note
                 ],
                 synchronize: true
             })

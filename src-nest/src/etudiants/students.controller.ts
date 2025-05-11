@@ -13,7 +13,7 @@ export class StudentsController {
 
   @Put()
   update(@Body() createStudentDto: CreateStudentDto) {
-    return this.studentsService.create(createStudentDto);
+    // return this.studentsService.create(createStudentDto);
   }
 
   @Get()

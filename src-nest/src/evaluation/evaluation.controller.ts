@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { EvaluationService } from './evaluation.service';
 import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 import { UpdateEvaluationDto } from './dto/update-evaluation.dto';
+import { StudentsService } from 'src/etudiants/students.service';
 
 @Controller('evaluation')
 export class EvaluationController {
-  constructor(private readonly evaluationService: EvaluationService) {}
+  constructor(
+    private readonly evaluationService: EvaluationService,
+    private readonly studentService: StudentsService
+  ) {}
 
   @Post()
-  create(@Body() createEvaluationDto: CreateEvaluationDto) {
-    return this.evaluationService.create(createEvaluationDto);
+  async create(@Query('numero_etudiant',ParseIntPipe) numero_etudiant: number, @Body() createEvaluationDto: Omit<CreateEvaluationDto,"etudiant">) {
+    const etudiant = await this.studentService.findOne(numero_etudiant);
+    if (!etudiant) return;
+    return this.evaluationService.create({...createEvaluationDto,etudiant});
   }
 
   @Get()

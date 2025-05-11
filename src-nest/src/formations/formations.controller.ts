@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
-import { UpdateFormationDto } from './dto/update-formation.dto';
 import { FormateursService } from 'src/formateurs/formateurs.service';
 
 @Controller('formations')
@@ -27,16 +26,17 @@ export class FormationsController {
   @Get()
   findAll() {
     return this.formationsService.findAll();
+
   }
 
-  @Get(':code')
+  @Get('/:code')
   findOne(@Param('code') code: string) {
     return this.formationsService.findOne(code);
   }
 
   @Patch()
   update(@Body() createFormationDto: CreateFormationDto) {
-      return this.formationsService.create(createFormationDto);
+    return this.formationsService.create(createFormationDto);
   }
 
   @Delete(':code')
