@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, PrimaryGeneratedColumn  } from "typeorm";
-import { Formateur } from "../../formateurs/entities/formateur.entity";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn  } from "typeorm";
 import { Etudiants } from "src/etudiants/entities/student.entity";
 import { Formations } from "src/formations/entities/formation.entity";
 

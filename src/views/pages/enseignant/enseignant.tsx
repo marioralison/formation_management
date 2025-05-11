@@ -3,7 +3,7 @@ import Remove from '../../../assets/Remove.png'
 import EnseignantForm from './enseignantForm';
 import axios from 'axios';
 
-interface Enseignant {
+export interface IEnseignant {
     numero: number;
     nom: string;
     prenom: string;
@@ -14,7 +14,7 @@ interface Enseignant {
 
 function Enseignant() {
 
-    const [enseignant, setEnseignant] = useState<Enseignant[]>([]);
+    const [enseignant, setEnseignant] = useState<IEnseignant[]>([]);
 
     useEffect(() => {
         fetchEnseignant();
@@ -22,7 +22,7 @@ function Enseignant() {
 
     const fetchEnseignant = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/formateurs'); 
+        const response = await axios.get('http://localhost:3000/formateurs');       
         setEnseignant(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des étudiants:', error);

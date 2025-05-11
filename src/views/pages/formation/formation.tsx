@@ -3,16 +3,17 @@ import Remove from '../../../assets/Remove.png'
 import FormationForm from './formationForm';
 import axios from 'axios';
 
-interface Formation {
+export interface IFormation {
   code: string;
   intitule: string;
   module: string;
   date_debut: string;
+  formateur: any;
 }
 
 function Formation() {
 
-  const [formation, setFormation] = useState<Formation[]>([]);
+  const [formation, setFormation] = useState<IFormation[]>([]);
 
   useEffect(() => {
       fetchFormation();
@@ -20,7 +21,9 @@ function Formation() {
 
   const fetchFormation = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/formations'); 
+      const response = await axios.get('http://localhost:3000/formations'); 
+      // const test = response.data;
+      // console.log(test[0].formateur.prenom);  
       setFormation(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des formations:', error);
@@ -74,7 +77,7 @@ function Formation() {
                   <td>{f.intitule}</td>
                   <td>{f.module}</td>
                   <td>{f.date_debut}</td>
-                  <td className="text-blue-400">Not implementhed</td>
+                  <td className="text-blue-400">{f.formateur.prenom}</td>
                   <td className='text-red-400 grid place-items-center pt-5'>
                     <img className='w-8 h-8 cursor-pointer' onClick={() => handleRemove(f.code)} src={Remove} alt="icon-remove" />
                   </td>

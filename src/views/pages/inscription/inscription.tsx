@@ -1,6 +1,46 @@
+import { useEffect, useState } from 'react';
 import Remove from '../../../assets/Remove.png'
+import axios from 'axios';
+import { IFormation } from '../formation/formation';
+
+interface Inscriptions {
+  numero: number,
+  date: Date | string,
+  etudiant: any,
+  formation: any,
+  formateur:any
+}
 
 function Inscription() {
+
+  const [inscription, setInscription] = useState<Inscriptions[]>([]);
+  const [formation, setFormation] = useState<IFormation[]>([]);
+
+  useEffect(() => {
+    fetchInscription();
+  }, []);
+
+  const fetchInscription = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/inscriptions'); 
+      const code_formation = response.data[0].formation.code
+      const res_formation = await axios.get(`http://localhost:3000/formations/${code_formation}`);
+      response.data[0].formation = res_formation.data;
+      setInscription(response.data);
+      
+    } catch (error) {
+      console.error('Erreur lors de la récupération des inscrition:', error);
+    }
+  }
+
+  const handleRemove = async (numero: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/inscriptions/${numero}`);
+      setInscription(inscription.filter(i => i.numero !== numero));
+    } catch (error) {
+      console.error('Erreur lors de la suppression inscription:', error);
+    }
+  };
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pl-12 pr-12 pt-6 pb-6 bg-white rounded-2xl gap-4">
@@ -25,16 +65,22 @@ function Inscription() {
             </tr>
           </thead>
           <tbody>
-            <tr className="h-18 text-center">
-              <td>01</td>
-              <td>Mathématique</td>
-              <td>5 heures</td>
-              <td>15/12/2004</td>
-              <td className="text-blue-400">Jean Fidèle</td>
-              <td className='text-red-400 grid place-items-center pt-5'>
-                <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" />
-              </td>
-            </tr>
+            {
+              inscription.map((i) => {
+                return (
+                  <tr key={i.numero} className="h-18 text-center">
+                    <td>{i.numero}</td>
+                    <td>{i.etudiant.prenom}</td>
+                    <td>{i.formation.intitule}</td>
+                    <td>{i.formation.formateur.prenom}</td>
+                    <td className="text-blue-400">{i.etudiant.prenom}</td>
+                    <td className='text-red-400 grid place-items-center pt-5'>
+                      <img className='w-8 h-8 cursor-pointer' onClick={() => handleRemove(i.numero)} src={Remove} alt="icon-remove" />
+                    </td>
+                  </tr>
+                )
+              })
+            }
           </tbody>
         </table>
       </div>

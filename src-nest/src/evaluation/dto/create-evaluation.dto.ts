@@ -3,7 +3,6 @@ import { Etudiants } from "src/etudiants/entities/student.entity";
 
 export class CreateEvaluationDto {
     
-
     @IsString()
     type: string;
 
