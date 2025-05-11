@@ -1,8 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Remove from '../../../assets/Remove.png'
 import EtudiantForm from './etudiantForm';
+import axios from 'axios';
+
+interface Student {
+  numero: number;
+  nom: string;
+  prenom: string;
+  date_naissance: string; // Format peut varier, ajuste selon ton API
+  email: string;
+}
 
 function Etudiant() {
+
+  const [students, setStudents] = useState<Student[]>([]);
+  
+  // Récupérer les étudiants au chargement et après chaque ajout
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/students'); 
+      setStudents(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des étudiants:', error);
+    }
+  };
+
+  // Fonction pour supprimer un étudiant (si besoin, basé sur ton icône "Remove")
+  const handleRemove = async (numero: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/students/${numero}`);
+      setStudents(students.filter(student => student.numero !== numero));
+    } catch (error) {
+      console.error('Erreur lors de la suppression:', error);
+    }
+  };
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -17,9 +52,9 @@ function Etudiant() {
         </button>
         <div className='flex justify-center items-center gap-4'>
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
-            <h1 className="text-white text-xl font-bold">5</h1>
+            <h1 className="text-white text-xl font-bold">{students.length}</h1>
           </div>
-          <h1 className="font-bold text-2xl">Etudiant</h1>
+          <h1 className="font-bold text-2xl">Etudiant{students.length > 1 ? 's': '' }</h1>
         </div>
       </div>
       <div className="w-full h-full overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
@@ -35,16 +70,20 @@ function Etudiant() {
             </tr>
           </thead>
           <tbody>
-            <tr className="h-18 text-center">
-              <td>01</td>
-              <td>Ralison</td>
-              <td>Mario</td>
-              <td>15/12/2004</td>
-              <td className="text-blue-400">marioralison@gmail.com</td>
-              <td className='text-red-400 grid place-items-center pt-5'>
-                <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" />
-              </td>
-            </tr>
+            {students.map((students) => {
+              return (
+                <tr key={students.numero} className="h-18 text-center">
+                  <td>{students.numero}</td>
+                  <td>{students.nom}</td>
+                  <td>{students.prenom}</td>
+                  <td>{students.date_naissance}</td>
+                  <td className="text-blue-400">{students.email}</td>
+                  <td className='text-red-400 grid place-items-center pt-5'>
+                    <img className='w-8 h-8 cursor-pointer' src={Remove} alt="icon-remove" onClick={() => handleRemove(students.numero)} />
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
@@ -52,7 +91,6 @@ function Etudiant() {
       {isFormOpen && <EtudiantForm onClose={() => setIsFormOpen(false)}/>}
 
     </div>
-
   )
 }
 
