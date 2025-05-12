@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Remove from '../../../assets/Remove.png'
 import axios from 'axios';
-import { IFormation } from '../formation/formation';
 
 interface Inscriptions {
   numero: number,
@@ -14,7 +13,6 @@ interface Inscriptions {
 function Inscription() {
 
   const [inscription, setInscription] = useState<Inscriptions[]>([]);
-  const [formation, setFormation] = useState<IFormation[]>([]);
 
   useEffect(() => {
     fetchInscription();
@@ -23,6 +21,8 @@ function Inscription() {
   const fetchInscription = async () => {
     try {
       const response = await axios.get('http://localhost:3000/inscriptions'); 
+      if (response.data.length == 0) return;
+      
       const code_formation = response.data[0].formation.code
       const res_formation = await axios.get(`http://localhost:3000/formations/${code_formation}`);
       response.data[0].formation = res_formation.data;
@@ -35,7 +35,7 @@ function Inscription() {
 
   const handleRemove = async (numero: number) => {
     try {
-      await axios.delete(`http://localhost:8080/inscriptions/${numero}`);
+      await axios.delete(`http://localhost:3000/inscriptions/${numero}`);
       setInscription(inscription.filter(i => i.numero !== numero));
     } catch (error) {
       console.error('Erreur lors de la suppression inscription:', error);
@@ -47,9 +47,9 @@ function Inscription() {
       <div className="h-30 w-full flex justify-end items-center gap-4 row-span-2">
         <div className='flex justify-center items-center gap-4'>
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
-            <h1 className="text-white text-xl font-bold">5</h1>
+            <h1 className="text-white text-xl font-bold">{inscription.length}</h1>
           </div>
-          <h1 className="font-bold text-2xl">Inscription</h1>
+          <h1 className="font-bold text-2xl">Inscription{inscription.length > 1 ? 's': '' }</h1>
         </div>
       </div>
       <div className="w-full h-full overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">

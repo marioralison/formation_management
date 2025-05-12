@@ -33,7 +33,7 @@ function FormationForm({ onClose } : FormationFormProps) {
         
         try {
             // numero formateur doit être
-            const response = await axios.post('http://localhost:8080/formations?numero_formateur=1',formData,{
+            const response = await axios.post('http://localhost:3000/formations?numero_formateur=1',formData,{
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -31,7 +31,7 @@ function Enseignant() {
 
     const handleRemove = async (numero: number) => {
       try {
-        await axios.delete(`http://localhost:8080/formateurs/${numero}`);
+        await axios.delete(`http://localhost:3000/formateurs/${numero}`);
         setEnseignant(enseignant.filter(e => e.numero !== numero));
       } catch (error) {
         console.error('Erreur lors de la suppression formateurs:', error);
@@ -51,9 +51,9 @@ function Enseignant() {
                 </button>
                 <div className='flex justify-center items-center gap-4'>
                     <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
-                        <h1 className="text-white text-xl font-bold">5</h1>
+                        <h1 className="text-white text-xl font-bold">{enseignant.length}</h1>
                     </div>
-                    <h1 className="font-bold text-2xl">Enseignant</h1>
+                    <h1 className="font-bold text-2xl">Enseignant{enseignant.length > 1 ? 's': '' }</h1>
                 </div>
             </div>
             <div className="w-full h-full overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">

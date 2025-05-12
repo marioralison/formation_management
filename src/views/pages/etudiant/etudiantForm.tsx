@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 interface EtudiantFormProps {
@@ -34,7 +34,7 @@ function EtudiantForm({ onClose } : EtudiantFormProps) {
         e.preventDefault()
         
         try {
-            const response = await axios.post('http://localhost:8080/students',formData,{
+            const response = await axios.post('http://localhost:3000/students',formData,{
                 headers: {
                     'Content-Type': 'application/json'
                 }

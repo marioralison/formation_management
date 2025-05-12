@@ -32,7 +32,7 @@ function Etudiant() {
   // Fonction pour supprimer un étudiant (si besoin, basé sur ton icône "Remove")
   const handleRemove = async (numero: number) => {
     try {
-      await axios.delete(`http://localhost:8080/students/${numero}`);
+      await axios.delete(`http://localhost:3000/students/${numero}`);
       setStudents(students.filter(student => student.numero !== numero));
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);

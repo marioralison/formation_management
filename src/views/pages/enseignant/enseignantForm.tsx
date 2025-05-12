@@ -36,7 +36,7 @@ function EnseignantForm({ onClose } : EnseignantFormProps) {
         e.preventDefault()
         
         try {
-            const response = await axios.post('http://localhost:8080/formateurs',formData,{
+            const response = await axios.post('http://localhost:3000/formateurs',formData,{
                 headers: {
                     'Content-Type': 'application/json'
                 }

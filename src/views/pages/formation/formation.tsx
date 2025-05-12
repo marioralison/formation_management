@@ -32,7 +32,7 @@ function Formation() {
 
   const handleRemove = async (code: string) => {
     try {
-      await axios.delete(`http://localhost:8080/formations/${code}`);
+      await axios.delete(`http://localhost:3000/formations/${code}`);
       setFormation(formation.filter(f => f.code !== code));
     } catch (error) {
       console.error('Erreur lors de la suppression formation:', error);
@@ -52,9 +52,9 @@ function Formation() {
         </button>
         <div className='flex justify-center items-center gap-4'>
           <div className="w-10 h-10 flex rounded-full justify-center items-center bg-slate-900">
-            <h1 className="text-white text-xl font-bold">5</h1>
+            <h1 className="text-white text-xl font-bold">{formation.length}</h1>
           </div>
-          <h1 className="font-bold text-2xl">Formation</h1>
+          <h1 className="font-bold text-2xl">Formation{formation.length > 1 ? 's': '' }</h1>
         </div>
       </div>
       <div className="w-full h-full overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
